@@ -1,6 +1,6 @@
 # Domain-specific Chat GPT-3 Starter App
 
-Use this starter app to build your own ChatGPT style app, that cites its sources and is trained on specifc websites that you define. Check out the live demo to get a sense of how it works: https://astro-labs.app/docs
+Use this starter app to build your own ChatGPT style app trained on specific websites that you define (and cites its sources). Live demo: https://astro-labs.app/docs
 
 ## Overview
 
