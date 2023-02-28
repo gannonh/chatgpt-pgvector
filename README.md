@@ -8,7 +8,7 @@ ChatGPT is great for casual, general-purpose question-answers but falls short wh
 
 Embeddings, as represented by vectors of floating-point numbers, measure the "relatedness" of text strings. These are super useful for ranking search results, clustering, classification, etc. Relatedness is measured by cosine similarity. If the cosine similarity between two vectors is close to 1, the vectors are highly similar and point in the same direction. In the case of text embeddings, a high cosine similarity between two embedding vectors indicates that the corresponding text strings are highly related.
 
-This starter app uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.
+This starter app uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user. Check out the Supabase blog posts on [pgvector and OpenAI embeddings](https://supabase.com/blog/openai-embeddings-postgres-vector) for more background.
 
 Technologies used:
 - Nextjs (React framework) + Vercel hosting
@@ -80,7 +80,7 @@ $$;
 ```
 ### Set-up local environment
 
-- download the source code: ````gpt3-pgvector.zip```
+- download the source code: ```gpt3-pgvector.zip```
 - unzip and open in your favorite editor (the following assumes VS Code on a Mac)
 ```bash
 unzip gpt3-pgvector.zip
