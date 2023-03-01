@@ -82,11 +82,10 @@ $$;
 ```
 ### Set-up local environment
 
-- download the source code: ```gpt3-pgvector.zip```
+- clone the repo: ```gh repo clone gannonh/gpt3.5-turbo-pgvector```
 - unzip and open in your favorite editor (the following assumes VS Code on a Mac)
 ```bash
-unzip gpt3-pgvector.zip
-cd gpt3-pgvector
+cd gpt3.5-turbo-pgvector
 code .
 ```
 - install dependencies
