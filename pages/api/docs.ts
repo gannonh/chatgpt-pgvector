@@ -66,7 +66,7 @@ const handler = async (req: Request): Promise<Response> => {
     "match_documents",
     {
       query_embedding: embedding,
-      similarity_threshold: 0.1, // Choose an appropriate threshold for your data btwn 0 and 1
+      similarity_threshold: 0.1, // Choose an appropriate threshold for your data
       match_count: 10 // Choose the number of matches
     }
   );
@@ -97,28 +97,24 @@ const handler = async (req: Request): Promise<Response> => {
     }
   }
 
-
   // console.log("contextText: ", contextText);
 
-  const prompt = stripIndent`${oneLine`
-  You are a very enthusiastic support representative who loves
-  to help people! Given the following sections and their source URLs from the 
-  documentation sources, answer the question using only that information,
-  outputted in markdown format. Include code snippets if relevant. If you are unsure and the answer
-  is not explicitly written in the documentation, say
-  "Sorry, I don't know how to help with that."  If the context sections include 
-  source URLs include them under the SOURCES heading at the end of your response. Always include all of the relevant source urls 
-  from the context sections. Never list a URL more than once. Never include URLs that are not in the context sections.`}
-  
-  Context sections:
+  const systemContent = `You are a helpful assistant. When given CONTEXT you answer questions using only that information,
+  and you always format your output in markdown. You include code snippets if relevant. If you are unsure and the answer
+  is not explicitly written in the CONTEXT provided, you say
+  "Sorry, I don't know how to help with that."  If the CONTEXT includes 
+  source URLs include them under a SOURCES heading at the end of your response. Always include all of the relevant source urls 
+  from the CONTEXT. Never list a URL more than once. Never include URLs that are not in the CONTEXT sections. Never make up URLs`;
+
+  const userContent = `CONTEXT:
   Next.js is a React framework for creating production-ready web applications. It provides a variety of methods for fetching data, a built-in router, and a Next.js Compiler for transforming and minifying JavaScript code. It also includes a built-in Image Component and Automatic Image Optimization for resizing, optimizing, and serving images in modern formats.
   SOURCE: nextjs.org/docs/faq
   
-  Question: 
+  QUESTION: 
   what is nextjs?    
-  
-  Answer as markdown, including related code snippets if available: 
-  Next.js is a framework for building production-ready web applications using React. It offers various data fetching options, comes equipped with an integrated router, and features a Next.js compiler for transforming and minifying JavaScript. Additionally, it has an inbuilt Image Component and Automatic Image Optimization that helps resize, optimize, and deliver images in modern formats.
+  `;
+
+  const assistantContent = `Next.js is a framework for building production-ready web applications using React. It offers various data fetching options, comes equipped with an integrated router, and features a Next.js compiler for transforming and minifying JavaScript. Additionally, it has an inbuilt Image Component and Automatic Image Optimization that helps resize, optimize, and deliver images in modern formats.
   
   \`\`\`js
   function HomePage() {
@@ -129,24 +125,40 @@ const handler = async (req: Request): Promise<Response> => {
   \`\`\`
   
   SOURCES:
-  https://nextjs.org/docs/faq
-  
-  
-  Context sections:
+  https://nextjs.org/docs/faq`;
+
+  const userMessage = `CONTEXT:
   ${contextText}
   
-  Question: """
-  ${query}
-  """
-  
-  Answer as markdown, including related code snippets if available:
+  USER QUESTION: 
+  ${query}  
   `;
 
-  console.log("prompt: ", prompt);
+  const messages = [
+    {
+      role: "system",
+      content: systemContent
+    },
+    {
+      role: "user",
+      content: userContent
+    },
+    {
+      role: "assistant",
+      content: assistantContent
+    },
+    {
+      role: "user",
+      content: userMessage
+    }
+  ];
+
+
+  console.log("messages: ", messages);
 
   const payload: OpenAIStreamPayload = {
-    model: "text-davinci-003",
-    prompt,
+    model: "gpt-3.5-turbo-0301",
+    messages: messages,
     temperature: 0,
     top_p: 1,
     frequency_penalty: 0,
