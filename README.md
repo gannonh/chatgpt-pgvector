@@ -1,6 +1,8 @@
-# Domain-specific Chat GPT-3 Starter App
+# Domain-specific ChatGTP (gpt-3.5-turbo) Starter App
 
-Use this starter app to build your own ChatGPT style app trained on specific websites that you define (and cites its sources). Live demo: https://astro-labs.app/docs
+⚠️ UPDATE: Now uses the new "ChatGPT API" (model gpt-3.5-turbo). More on the new API: <https://platform.openai.com/docs/guides/chat> 
+
+Use this starter app to build your own ChatGPT style app trained on specific websites that you define. Live demo: <https://astro-labs.app/docs>
 
 ## Overview
 
