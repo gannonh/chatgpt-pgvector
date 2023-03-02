@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",
+    "autoprefixer": "^10.4.13",
     "cheerio": "^1.0.0-rc.12",
     "common-tags": "^1.8.2",
     "daisyui": "^2.50.0",
@@ -25,7 +26,8 @@
     "react-markdown": "^8.0.5",
     "react-syntax-highlighter": "^15.5.0",
     "react-text-transition": "^3.0.2",
-    "react-use-measure": "^2.1.1"
+    "react-use-measure": "^2.1.1",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.1",

@@ -1,37 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
-import Head from "next/head";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import LoadingDots from "../components/LoadingDots";
-import ResizablePanel from "../components/ResizablePanel";
+import { v4 as uuidv4 } from 'uuid';
+import LoadingDots from "@/components/LoadingDots";
+import ResizablePanel from "@/components/ResizablePanel";
 import MetaTags from "@/components/MetaTags";
 import { ReactNode } from "react";
 import { PageMeta } from "../types";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 
-import ReactMarkdown from "react-markdown";
-import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
-import tsx from "react-syntax-highlighter/dist/cjs/languages/prism/tsx";
-import typescript from "react-syntax-highlighter/dist/cjs/languages/prism/typescript";
-import scss from "react-syntax-highlighter/dist/cjs/languages/prism/scss";
-import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
-import markdown from "react-syntax-highlighter/dist/cjs/languages/prism/markdown";
-import json from "react-syntax-highlighter/dist/cjs/languages/prism/json";
-import python from "react-syntax-highlighter/dist/cjs/languages/prism/python";
-import javascript from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
-import jsx from "react-syntax-highlighter/dist/cjs/languages/prism/jsx";
-import rangeParser from "parse-numeric-range";
-import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-
-SyntaxHighlighter.registerLanguage("tsx", tsx);
-SyntaxHighlighter.registerLanguage("typescript", typescript);
-SyntaxHighlighter.registerLanguage("scss", scss);
-SyntaxHighlighter.registerLanguage("bash", bash);
-SyntaxHighlighter.registerLanguage("markdown", markdown);
-SyntaxHighlighter.registerLanguage("json", json);
-SyntaxHighlighter.registerLanguage("python", python);
-SyntaxHighlighter.registerLanguage("javascript", javascript);
-SyntaxHighlighter.registerLanguage("jsx", jsx);
 
 interface Props {
   children: ReactNode;
@@ -90,61 +68,6 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
     setLoading(false);
   };
 
-  const syntaxTheme = oneDark;
-
-  const MarkdownComponents: object = {
-    code({
-      node,
-      inline,
-      className,
-      ...props
-    }: {
-      node: { data: { meta: string } };
-      inline: boolean;
-      className: string;
-    } & Record<string, unknown>): ReactNode {
-      const match = /language-(\w+)/.exec(className || "");
-      const hasMeta = node?.data?.meta;
-
-      const applyHighlights: object = (applyHighlights: number) => {
-        if (hasMeta) {
-          const RE = /{([\d,-]+)}/;
-          const metadata = node.data.meta?.replace(/\s/g, "");
-          const strlineNumbers = RE?.test(metadata)
-            ? RE?.exec(metadata)![1]
-            : "0";
-          const highlightLines = rangeParser(strlineNumbers);
-          if (highlightLines.includes(applyHighlights)) {
-            return { className: "highlight" };
-          }
-        }
-        return {};
-      };
-
-      const children =
-        typeof props.children === "string" || Array.isArray(props.children)
-          ? props.children
-          : "";
-
-      return match ? (
-        <SyntaxHighlighter
-          style={syntaxTheme}
-          language={match[1]}
-          PreTag="div"
-          className="codeStyle"
-          showLineNumbers={true}
-          wrapLines={hasMeta ? true : false}
-          useInlineStyles={true}
-          lineProps={applyHighlights}
-          {...props}
-        >
-          {children}
-        </SyntaxHighlighter>
-      ) : (
-        <code className={className} {...props} />
-      );
-    }
-  };
 
   return (
     <>
@@ -220,10 +143,7 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
                             key={index}
                           >
                             {index === 0 ? (
-                            
-                                <ReactMarkdown components={MarkdownComponents}>
-                                  {splitanswer.trim()}
-                                </ReactMarkdown>
+                            <MarkdownRenderer content={splitanswer.trim()} />
                             
                             ) : (
                               <>
@@ -235,8 +155,8 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
                                     .filter((url) => url.trim().length > 0)
                                     .map((url) =>
                                       url.includes("http") ? (
-                                        <li key={url}>
-                                          <a
+                                        <li key={uuidv4()}>
+                                        <a
                                             className="underline text-accent"
                                             target="_blank" 
                                             href={url.replace(/^-+/g, '')} // Remove leading hyphens
@@ -245,7 +165,7 @@ const DocsPage: NextPage<Props> = ({ children, meta: pageMeta }: Props) => {
                                           </a>
                                         </li>
                                       ) : (
-                                        <li key={url}>{url}</li>
+                                        <li key={uuidv4()}>{url}</li>
                                       )
                                     )}
                                 </ul>

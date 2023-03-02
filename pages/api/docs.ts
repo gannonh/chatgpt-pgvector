@@ -104,7 +104,7 @@ const handler = async (req: Request): Promise<Response> => {
   is not explicitly written in the CONTEXT provided, you say
   "Sorry, I don't know how to help with that."  If the CONTEXT includes 
   source URLs include them under a SOURCES heading at the end of your response. Always include all of the relevant source urls 
-  from the CONTEXT. Never list a URL more than once. Never include URLs that are not in the CONTEXT sections. Never make up URLs`;
+  from the CONTEXT, but never list a URL more than once (ignore trailing forward slashes when comparing for uniqueness). Never include URLs that are not in the CONTEXT sections. Never make up URLs`;
 
   const userContent = `CONTEXT:
   Next.js is a React framework for creating production-ready web applications. It provides a variety of methods for fetching data, a built-in router, and a Next.js Compiler for transforming and minifying JavaScript code. It also includes a built-in Image Component and Automatic Image Optimization for resizing, optimizing, and serving images in modern formats.
