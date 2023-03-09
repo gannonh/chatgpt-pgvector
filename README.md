@@ -80,6 +80,7 @@ begin
 end;
 $$;
 ```
+
 ### Set-up local environment
 
 - clone the repo: ```gh repo clone gannonh/gpt3.5-turbo-pgvector```
@@ -94,7 +95,7 @@ npm install
 ```
 - create a .env.local file in the root directory to store environment variables:
 ```bash
-cp .env.example .env.local
+cp .env.local.example .env.local
 ```
 - open the .env.local file and add your Supabase project URL and API key. You can find these in the Supabase web portal under ```Project``` → ```API```. The API key should be stored in the ```SUPABASE_ANON_KEY``` variable and project URL should be stored under ```NEXT_PUBLIC_SUPABASE_URL```.
 - Add your OPENAI PI key to .env.local. You can find this in the OpenAI web portal under ```API Keys```. The API key should be stored in the ```OPENAI_API_KEY``` variable.
@@ -103,13 +104,3 @@ cp .env.example .env.local
 npm run dev
 ```
 - Open http://localhost:3000 in your browser to view the app.
-  
-
-
-
-
-
-
-
-
-
