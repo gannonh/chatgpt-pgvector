@@ -72,9 +72,9 @@ begin
     documents.id,
     documents.content,
     documents.url,
-    (documents.embedding <=> query_embedding) as similarity
+    1 - (documents.embedding <=> query_embedding) as similarity
   from documents
-  where (documents.embedding <=> query_embedding) > similarity_threshold
+  where 1 - (documents.embedding <=> query_embedding) > similarity_threshold
   order by documents.embedding <=> query_embedding
   limit match_count;
 end;
