@@ -51,14 +51,13 @@ export default async function handle(
           embedding,
           url
         });
-        console.log("res:" + res);
       }
       catch (error) {
         console.error("error in supabase insert: " + error);
       }
 
-      return res.status(200).json({ success: true });
     }
+    return res.status(200).json({ success: true });
   }
 
   return res
@@ -69,7 +68,13 @@ export default async function handle(
 async function getDocuments(urls: string[]) {
   const documents = [];
   for (const url of urls) {
-    const response = await fetch(url);
+    let fetchURL = url;
+    if (process.env.SPLASH_URL != "") {
+      fetchURL = `${process.env.SPLASH_URL}/render.html?url=${encodeURIComponent(url)}&timeout=10&wait=0.5`
+    }
+    console.log("fetching url: " + fetchURL);
+
+    const response = await fetch(fetchURL);
     const html = await response.text();
     const $ = cheerio.load(html);
     // tag based e.g. <main>
