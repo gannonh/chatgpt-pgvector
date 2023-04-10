@@ -98,7 +98,8 @@ npm install
 cp .env.local.example .env.local
 ```
 - open the .env.local file and add your Supabase project URL and API key. You can find these in the Supabase web portal under ```Project``` → ```API```. The API key should be stored in the ```SUPABASE_ANON_KEY``` variable and project URL should be stored under ```NEXT_PUBLIC_SUPABASE_URL```.
-- Add your OPENAI PI key to .env.local. You can find this in the OpenAI web portal under ```API Keys```. The API key should be stored in the ```OPENAI_API_KEY``` variable.
+- Add your OPENAI API key to .env.local. You can find this in the OpenAI web portal under ```API Keys```. The API key should be stored in the ```OPENAI_API_KEY``` variable.
+- [optional] environment variable ```OPEAI_PROXY``` be provide to enable your custom proxy of OPENAI api. Left it ```""``` to call official API directly.
 - Start the app
 ```bash
 npm run dev

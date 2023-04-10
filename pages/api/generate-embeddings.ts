@@ -1,13 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Configuration, OpenAIApi } from "openai";
 import { supabaseClient } from "@/lib/embeddings-supabase";
 import * as cheerio from "cheerio";
 
 // embedding doc sizes
 const docSize: number = 1000;
-
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-const openAi = new OpenAIApi(configuration);
 
 export default async function handle(
   req: NextApiRequest,
@@ -25,24 +21,44 @@ export default async function handle(
       console.log("\nDocument length: \n", body.length);
       console.log("\nURL: \n", url);
 
-      const embeddingResponse = await openAi.createEmbedding({
-        model: "text-embedding-ada-002",
-        input
-      });
+      const apiKey = process.env.OPENAI_API_KEY;
+      const apiURL = process.env.OPENAI_PROXY == "" ? "https://api.openai.com" : process.env.OPENAI_PROXY;
 
-      console.log("\nembeddingResponse: \n", embeddingResponse);
+      const embeddingResponse = await fetch(
+        apiURL + "/v1/embeddings",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            input,
+            model: "text-embedding-ada-002"
+          })
+        }
+      );
+      // console.log("\nembeddingResponse: \n", embeddingResponse);
+      const embeddingData = await embeddingResponse.json();
 
-      const [{ embedding }] = embeddingResponse.data.data;
+      const [{ embedding }] = embeddingData.data;
+      // console.log("embedding:" + embedding);
 
       // In production we should handle possible errors
-      await supabaseClient.from("documents").insert({
-        content: input,
-        embedding,
-        url
-      });
-    }
+      try {
+        let res = await supabaseClient.from("documents").insert({
+          content: input,
+          embedding,
+          url
+        });
+        console.log("res:" + res);
+      }
+      catch (error) {
+        console.error("error in supabase insert: " + error);
+      }
 
-    return res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
+    }
   }
 
   return res
