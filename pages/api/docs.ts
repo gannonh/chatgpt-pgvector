@@ -2,9 +2,6 @@ import { supabaseClient } from "@/lib/embeddings-supabase";
 import { OpenAIStream, OpenAIStreamPayload } from "@/utils/OpenAIStream";
 import { oneLine, stripIndent } from "common-tags";
 import GPT3Tokenizer from "gpt3-tokenizer";
-import { Configuration, OpenAIApi } from "openai";
-
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -42,9 +39,11 @@ const handler = async (req: Request): Promise<Response> => {
   // console.log("input: ", input);
 
   const apiKey = process.env.OPENAI_API_KEY;
+  
+  const apiURL = process.env.OPENAI_PROXY == "" ? "https://api.openai.com" : process.env.OPENAI_PROXY;
 
   const embeddingResponse = await fetch(
-    "https://api.openai.com/v1/embeddings",
+    apiURL + "/v1/embeddings",
     {
       method: "POST",
       headers: {
