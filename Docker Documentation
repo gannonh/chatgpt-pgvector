@@ -1,0 +1,96 @@
+# Document: How to Deploy Vue.js Application using Docker
+
+## Introduction
+
+In this document, we will learn how to deploy a Vue.js application using Docker. Docker is a powerful tool that allows us to package our application into a container, which can then be deployed to any machine that has Docker installed. This document assumes that you have a basic understanding of Vue.js and Docker.
+
+## Step 1: Install Docker
+
+The first step in deploying a Vue.js application using Docker is to install Docker. Docker has support for Windows, Linux, and macOS. Follow the steps below depending on your operating system.
+
+### Windows
+
+1. Download the Docker Desktop installer from the [Docker website](https://www.docker.com/products/docker-desktop).
+2. Double-click on the installer to start the installation process.
+3. Follow the prompts to complete the installation.
+
+### Linux
+
+1. Follow the installation instructions for your Linux distribution from the [Docker website](https://docs.docker.com/engine/install/).
+2. Once Docker is installed, run the following command to start the Docker service:
+
+   ```
+   sudo systemctl start docker
+   ```
+
+### macOS
+
+1. Download the Docker Desktop installer from the [Docker website](https://www.docker.com/products/docker-desktop).
+2. Double-click on the installer to start the installation process.
+3. Follow the prompts to complete the installation.
+
+## Step 2: Create a Dockerfile
+
+The next step is to create a Dockerfile. A Dockerfile is a script that contains instructions for Docker to build an image of your application. Follow the steps below to create a Dockerfile for your Vue.js application.
+
+1. Create a file named `Dockerfile` in the root directory of your Vue.js application.
+2. Add the following content to the `Dockerfile`:
+
+   ```
+   # Base image
+   FROM node:14.16.0-alpine
+
+   # Set the working directory
+   WORKDIR /app
+
+   # Copy the package.json and package-lock.json files
+   COPY package*.json ./
+
+   # Install dependencies
+   RUN npm install
+
+   # Copy the rest of the application files
+   COPY . .
+
+   # Build the application
+   RUN npm run build
+
+   # Expose the application port
+   EXPOSE 8080
+
+   # Start the application
+   CMD ["npm", "run", "serve"]
+   ```
+
+3. Save the `Dockerfile`.
+
+## Step 3: Build the Docker image
+
+The next step is to build the Docker image using the Dockerfile that we created in the previous step. Follow the steps below to build the Docker image.
+
+1. Open a terminal or command prompt in the root directory of your Vue.js application.
+2. Run the following command to build the Docker image:
+
+   ```
+   docker build -t my-vue-app .
+   ```
+
+   This command builds the Docker image and tags it with the name `my-vue-app`.
+
+## Step 4: Run the Docker container
+
+The final step is to run the Docker container. Follow the steps below to run the Docker container.
+
+1. Run the following command to start the Docker container:
+
+   ```
+   docker run -p 8080:8080 my-vue-app
+   ```
+
+   This command starts the Docker container and maps port 8080 of the container to port 8080 of the host machine.
+
+2. Open a web browser and go to `http://localhost:8080` to access your Vue.js application.
+
+## Conclusion
+
+In this document, we learned how to deploy a Vue.js application using Docker. We started by installing Docker on our machine, then we created a Dockerfile for our Vue.js application, built the Docker image, and finally ran the Docker container. With
