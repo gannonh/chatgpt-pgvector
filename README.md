@@ -1,16 +1,16 @@
 # Domain-specific ChatGTP Starter App
 
-ChatGPT is great for casual, general-purpose question-answers but falls short when domain-specific knowledge is needed. Further, it makes up answers to fill its knowledge gaps and never cites its sources, so it can't really be trusted. This starter app uses embeddings coupled with vector search to solve this, or more specifically, to show how OpenAI's GPT-3 API can be used to create a conversational interfaces to domain-specific knowledge.
+ChatGPT is great for casual, general-purpose question-answers but falls short when domain-specific knowledge is needed. Further, it makes up answers to fill its knowledge gaps and never cites its sources, so it can't really be trusted. This starter app uses embeddings coupled with vector search to solve this, or more specifically, to show how OpenAI's chat completions API can be used to create conversational interfaces to domain-specific knowledge.
 
 Embeddings, as represented by vectors of floating-point numbers, measure the "relatedness" of text strings. These are super useful for ranking search results, clustering, classification, etc. Relatedness is measured by cosine similarity. If the cosine similarity between two vectors is close to 1, the vectors are highly similar and point in the same direction. In the case of text embeddings, a high cosine similarity between two embedding vectors indicates that the corresponding text strings are highly related.
 
-This starter app uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user. Check out the Supabase blog posts on [pgvector and OpenAI embeddings](https://supabase.com/blog/openai-embeddings-postgres-vector) for more background.
+This starter app uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt. The response is then streamed to the user. Check out the Supabase blog posts on [pgvector and OpenAI embeddings](https://supabase.com/blog/openai-embeddings-postgres-vector) for more background.
 
 Technologies used:
 
 - Nextjs (React framework) + Vercel hosting
 - Supabase (using their pgvector implementation as the vector database)
-- OpenAI API (for generating embeddings and GPT-3 responses)
+- OpenAI API (for generating embeddings and chat completions)
 - TailwindCSS (for styling)
 
 ## Functional Overview
@@ -25,8 +25,8 @@ Responding to queries:
 
 - A single embedding is generated from the user prompt
 - That embedding is used to perform a similarity search against the vector database
-- The results of the similarity search are used to construct a prompt for GPT-3
-- The GTP-3 response is then streamed to the user.
+- The results of the similarity search are used to construct a prompt for GPT-3.5/GPT-4
+- The GPT response is then streamed to the user.
 
 ## Getting Started
 
