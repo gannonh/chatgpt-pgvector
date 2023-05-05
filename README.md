@@ -1,11 +1,5 @@
 # Domain-specific ChatGTP Starter App
 
-⚠️ UPDATE: Now uses the new "ChatGPT API" (model gpt-3.5-turbo or gpt-4). More on the new API: <https://platform.openai.com/docs/guides/chat>
-
-Use this starter app to build your own ChatGPT style app "trained" on specific websites that you define. Live demo: <https://astro-labs.app/docs>
-
-## Overview
-
 ChatGPT is great for casual, general-purpose question-answers but falls short when domain-specific knowledge is needed. Further, it makes up answers to fill its knowledge gaps and never cites its sources, so it can't really be trusted. This starter app uses embeddings coupled with vector search to solve this, or more specifically, to show how OpenAI's GPT-3 API can be used to create a conversational interfaces to domain-specific knowledge.
 
 Embeddings, as represented by vectors of floating-point numbers, measure the "relatedness" of text strings. These are super useful for ranking search results, clustering, classification, etc. Relatedness is measured by cosine similarity. If the cosine similarity between two vectors is close to 1, the vectors are highly similar and point in the same direction. In the case of text embeddings, a high cosine similarity between two embedding vectors indicates that the corresponding text strings are highly related.
